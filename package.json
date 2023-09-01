@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "nodemon index.js",
     "build": "next build",
     "lint": "next lint",
     "start-old": "next start",
-    "start": "nodemon index.js"
+    "start": "npm run build && node index.js"
   },
   "dependencies": {
     "@babel/preset-env": "^7.22.14",
