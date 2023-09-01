@@ -2,6 +2,8 @@ import express from 'express'
 import next from 'next'
 import path from 'path'
 import dotenv from 'dotenv'
+import userRoutes from './api/routes/userRoutes.js'
+
 dotenv.config()
 
 const port = parseInt(process.env.PORT || '3000', 10)
@@ -15,13 +17,7 @@ app.prepare().then(() => {
   const __dirname = path.resolve()
   server.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 
-  server.get('/api/users', (req, res) => {
-    const users = [
-      { id: 1, name: 'John Doe' },
-      { id: 2, name: 'Jane Doe' },
-    ]
-    return res.status(200).json({ users })
-  })
+  server.use('/api/users', userRoutes)
 
   server.get('/api/cookie', (req, res) => {
     res.cookie('cookie', 'cookie-string', {
