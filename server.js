@@ -1,5 +1,6 @@
 import express from 'express'
 import next from 'next'
+import path from 'path'
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -10,6 +11,9 @@ const handle = app.getRequestHandler()
 
 app.prepare().then(() => {
   const server = express()
+
+  const __dirname = path.resolve()
+  server.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 
   server.get('/api/users', (req, res) => {
     const users = [
