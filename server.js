@@ -2,6 +2,7 @@ import express from 'express'
 import next from 'next'
 import path from 'path'
 import dotenv from 'dotenv'
+import connectDB from './api/config/database.js'
 import userRoutes from './api/routes/userRoutes.js'
 import uploadRoutes from './api/routes/uploadRoutes.js'
 import { errorHandler, notFound } from './api/middleware/errorMiddleware.js'
@@ -12,6 +13,8 @@ const port = parseInt(process.env.PORT || '3000', 10)
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler()
+
+connectDB()
 
 app.prepare().then(() => {
   const server = express()
