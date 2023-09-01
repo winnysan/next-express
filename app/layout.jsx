@@ -22,6 +22,9 @@ export default function RootLayout({ children }) {
             <li>
               <Link href="/users">Users</Link>
             </li>
+            <li>
+              <Link href="/upload">Upload</Link>
+            </li>
           </ul>
           {children}
         </body>

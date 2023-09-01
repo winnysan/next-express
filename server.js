@@ -3,6 +3,8 @@ import next from 'next'
 import path from 'path'
 import dotenv from 'dotenv'
 import userRoutes from './api/routes/userRoutes.js'
+import uploadRoutes from './api/routes/uploadRoutes.js'
+import { errorHandler, notFound } from './api/middleware/errorMiddleware.js'
 
 dotenv.config()
 
@@ -14,10 +16,15 @@ const handle = app.getRequestHandler()
 app.prepare().then(() => {
   const server = express()
 
+  // Body parser middleware
+  server.use(express.json())
+  server.use(express.urlencoded({ extended: true }))
+
   const __dirname = path.resolve()
   server.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 
   server.use('/api/users', userRoutes)
+  server.use('/api/upload', uploadRoutes)
 
   server.get('/api/cookie', (req, res) => {
     res.cookie('cookie', 'cookie-string', {
@@ -33,6 +40,9 @@ app.prepare().then(() => {
   server.all('*', (req, res) => {
     return handle(req, res)
   })
+
+  server.use(notFound)
+  server.use(errorHandler)
 
   server.listen(port, (err) => {
     if (err) throw err
